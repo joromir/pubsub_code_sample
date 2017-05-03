@@ -1,8 +1,6 @@
 module PubSubRedis
   # :nodoc:
   class Subscriber
-    attr_reader :ip, :port, :topics
-
     def initialize(ip = 'localhost', port = 20_000)
       @ip   = ip
       @port = port
@@ -16,5 +14,9 @@ module PubSubRedis
     end
 
     def listen; end
+
+    private
+
+    attr_reader :ip, :port, :topics
   end
 end

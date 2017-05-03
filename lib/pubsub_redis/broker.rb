@@ -1,8 +1,6 @@
 module PubSubRedis
   # :nodoc:
   class Broker
-    attr_reader :ip, :port, :client
-
     def initialize(ip = 'localhost', port = 20_000)
       @ip     = ip
       @port   = port
@@ -23,6 +21,8 @@ module PubSubRedis
     end
 
     private
+
+    attr_reader :ip, :port, :client
 
     def persist(message)
       puts message.inspect

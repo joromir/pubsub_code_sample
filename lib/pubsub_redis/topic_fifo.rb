@@ -1,8 +1,6 @@
 module PubSubRedis
   # :nodoc:
   class TopicFifo
-    attr_reader :topic, :body
-
     def self.push(message)
       new(message).push
     end
@@ -21,6 +19,8 @@ module PubSubRedis
     end
 
     private
+
+    attr_reader :topic, :body
 
     def client
       @client ||= Redis.new
