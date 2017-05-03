@@ -1,5 +1,6 @@
 module PubSubRedis
-  # :nodoc:
+  # Once an object of this class is instantiated, it listens for
+  # inbound messages from preselected topics and prints them.
   class Subscriber
     attr_reader :path, :topics
 

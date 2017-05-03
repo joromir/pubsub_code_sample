@@ -1,5 +1,6 @@
 module PubSubRedis
-  # :nodoc:
+  # This class holds the responsibility of message sending to the central
+  # Broker. Message payload is expected to have topic and body as attributes.
   class Publisher
     def initialize(path = LocationTuple.new)
       @path = path
