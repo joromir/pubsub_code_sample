@@ -1,4 +1,5 @@
 module PubSubRedis
+  # :nodoc:
   class Publisher
     def initialize(ip = 'localhost', port = 20_000)
       @ip   = ip

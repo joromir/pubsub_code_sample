@@ -1,4 +1,5 @@
 module PubSubRedis
+  # :nodoc:
   class TopicFifo
     attr_reader :topic, :body
 

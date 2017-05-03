@@ -1,4 +1,5 @@
 module PubSubRedis
+  # :nodoc:
   class Subscriber
     attr_reader :ip, :port, :topics
 
@@ -14,7 +15,6 @@ module PubSubRedis
       topics << new_topic
     end
 
-    def listen
-    end
+    def listen; end
   end
 end
