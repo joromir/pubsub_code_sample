@@ -1,4 +1,5 @@
 module PubSubRedis
+  # :nodoc:
   class Broker
     attr_reader :ip, :port, :client
 
@@ -9,27 +10,23 @@ module PubSubRedis
     end
 
     def run
-      puts 'Broker started!'
+      puts 'Broker started! Press ctrl+c to stop.'
 
-      loop { handle_inbound_request }
+      loop do
+        Thread.start(client.accept) do |request|
+          puts "[#{Time.now}] New message - #{request.inspect}"
+          persist(request.recv(1000))
+          puts "[#{Time.now}] Completed"
+          request.close
+        end
+      end
     end
 
     private
 
-    def handle_inbound_request
-      Thread.start(client.accept) do |request|
-        persist(request.recv(100))
-        puts "Completed #{request}"
-        request.close
-      end
-    end
-
     def persist(message)
-      puts 'received message'
-      received_message = JSON.parse(message)
-      puts received_message
-
-      TopicFifo.push(received_message)
+      puts message.inspect
+      TopicFifo.push(JSON.parse(message))
       # TODO: send to subscribed users.
     end
   end
