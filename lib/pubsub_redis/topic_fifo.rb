@@ -6,8 +6,7 @@ module PubSubRedis
     end
 
     def initialize(message)
-      @topic = message.fetch('topic')
-      @body  = message.fetch('body')
+      @topic, @body = message.values_at('topic', 'body')
     end
 
     def push
