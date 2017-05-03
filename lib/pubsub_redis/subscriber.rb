@@ -1,11 +1,10 @@
 module PubSubRedis
   # :nodoc:
   class Subscriber
-    attr_reader :host, :port, :topics
+    attr_reader :path, :topics
 
-    def initialize(host = 'localhost', port = 20_000)
-      @host   = host
-      @port   = port
+    def initialize(path = LocationTuple.new)
+      @path   = path
       @topics = []
 
       yield self if block_given?
@@ -18,7 +17,7 @@ module PubSubRedis
     end
 
     def listen
-      client = TCPSocket.new(host, port)
+      client = TCPSocket.new(path.host, path.port)
 
       client.write({ topics: topics }.to_json)
 

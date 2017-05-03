@@ -1,10 +1,9 @@
 module PubSubRedis
   # :nodoc:
   class Broker
-    def initialize(host = 'localhost', port = 20_000)
-      @host   = host
-      @port   = port
-      @client = TCPServer.new(host, port)
+    def initialize(path = LocationTuple.new)
+      @path   = path
+      @client = TCPServer.new(path.host, path.port)
     end
 
     # TODO: refactor
@@ -36,7 +35,7 @@ module PubSubRedis
 
     private
 
-    attr_reader :host, :port, :client
+    attr_reader :path, :client
 
     def persist(message)
       TopicFifo.push(JSON.parse(message))

@@ -1,13 +1,12 @@
 module PubSubRedis
   # :nodoc:
   class Publisher
-    def initialize(host = 'localhost', port = 20_000)
-      @host = host
-      @port = port
+    def initialize(path = LocationTuple.new)
+      @path = path
     end
 
     def execute(message)
-      client = TCPSocket.new(host, port)
+      client = TCPSocket.new(path.host, path.port)
 
       client.write(message.to_json)
       client.close
@@ -15,6 +14,6 @@ module PubSubRedis
 
     private
 
-    attr_reader :host, :port
+    attr_reader :path
   end
 end
