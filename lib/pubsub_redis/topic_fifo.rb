@@ -8,7 +8,7 @@ module PubSubRedis
     end
 
     def initialize(message)
-      @topic = message['title']
+      @topic = message['topic']
       @body  = message['body']
     end
 
