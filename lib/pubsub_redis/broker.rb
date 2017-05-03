@@ -7,6 +7,7 @@ module PubSubRedis
       @client = TCPServer.new(ip, port)
     end
 
+    # TODO: refactor
     def run
       puts 'Broker started! Press ctrl+c to stop.'
 
@@ -14,11 +15,21 @@ module PubSubRedis
         Thread.start(client.accept) do |request|
           puts "[#{Time.now}] New message - #{request.inspect}"
 
-          persist(request.recv(1000))
-          request.write(request.recv(100))
+          message = JSON(request.recv(1000))
+          puts message.inspect
 
-          puts "[#{Time.now}] Completed"
-          request.close
+          if message.has_key?('topics')
+            recent_messages = TopicFifo.new(message).to_a
+
+            if recent_messages.any?
+              recent_messages.each { |message| request.write("#{message}\n") }
+            end
+
+          else
+            persist(message)
+            puts "[#{Time.now}] Connection closed"
+            request.close
+          end
         end
       end
     end
@@ -28,7 +39,6 @@ module PubSubRedis
     attr_reader :ip, :port, :client
 
     def persist(message)
-      puts message.inspect
       TopicFifo.push(JSON.parse(message))
     end
   end

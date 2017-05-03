@@ -1,12 +1,14 @@
 module PubSubRedis
   # :nodoc:
   class Subscriber
+    attr_reader :ip, :port, :topics
+
     def initialize(ip = 'localhost', port = 20_000)
       @ip   = ip
       @port = port
       @topics = []
 
-      yield self
+      yield self if block_given?
     end
 
     def enroll(new_topic)
@@ -22,9 +24,5 @@ module PubSubRedis
 
       puts client.recv(100)
     end
-
-    private
-
-    attr_reader :ip, :port, :topics
   end
 end
