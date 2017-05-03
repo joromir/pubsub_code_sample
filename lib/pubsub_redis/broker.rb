@@ -28,11 +28,9 @@ module PubSubRedis
       puts 'received message'
       received_message = JSON.parse(message)
       puts received_message
-      # TODO: store in redis and send to
-      # subscribed users.
 
-      client = Redis.new
-      client.lpush(received_message['title'], received_message['body'])
+      TopicFifo.push(received_message)
+      # TODO: send to subscribed users.
     end
   end
 end
