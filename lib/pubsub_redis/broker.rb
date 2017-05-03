@@ -13,7 +13,10 @@ module PubSubRedis
       loop do
         Thread.start(client.accept) do |request|
           puts "[#{Time.now}] New message - #{request.inspect}"
+
           persist(request.recv(1000))
+          request.write(request.recv(100))
+
           puts "[#{Time.now}] Completed"
           request.close
         end
@@ -27,7 +30,6 @@ module PubSubRedis
     def persist(message)
       puts message.inspect
       TopicFifo.push(JSON.parse(message))
-      # TODO: send to subscribed users.
     end
   end
 end

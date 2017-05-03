@@ -10,10 +10,16 @@ module PubSubRedis
     end
 
     def enroll(new_topic)
+      return if topics.include?(new_topic)
+
       topics << new_topic
     end
 
-    def listen; end
+    def listen
+      client = TCPSocket.new('localhost', 20_000)
+
+      puts client.recv(100)
+    end
 
     private
 
