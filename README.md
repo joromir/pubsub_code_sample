@@ -1,6 +1,8 @@
 # PubSub code sample
 
-## 
+## Preliminary requirements
+
+You may want to install `Redis` and run `redis-server` with the default local settings.
 
 ## Usage
 
