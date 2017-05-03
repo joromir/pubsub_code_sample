@@ -6,4 +6,7 @@ silent_listener = PubSubRedis::Subscriber.new do |subscriber|
   subscriber.enroll 'girls'
 end
 
+silent_listener.enroll 'girls'
+silent_listener.enroll 'girls'
+
 silent_listener.listen

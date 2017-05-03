@@ -18,6 +18,8 @@ module PubSubRedis
     def listen
       client = TCPSocket.new('localhost', 20_000)
 
+      client.write({ topics: topics }.to_json)
+
       puts client.recv(100)
     end
 

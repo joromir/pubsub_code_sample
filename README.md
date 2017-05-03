@@ -20,5 +20,8 @@ listener = PubSubRedis::Subscriber.new do |subscriber|
   subscriber.enroll 'girls'
 end
 
+listener.enroll 'girls'
+listener.enroll 'girls'
+
 listener.listen
 ```
