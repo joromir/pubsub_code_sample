@@ -17,10 +17,10 @@ module PubSubRedis
     private
 
     def handle_inbound_request
-      Thread.start(client.accept) do |s|
-        persist(s.recv(100))
-        puts "Completed #{s}"
-        s.close
+      Thread.start(client.accept) do |request|
+        persist(request.recv(100))
+        puts "Completed #{request}"
+        request.close
       end
     end
 
