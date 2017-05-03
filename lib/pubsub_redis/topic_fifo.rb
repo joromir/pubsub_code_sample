@@ -8,8 +8,8 @@ module PubSubRedis
     end
 
     def initialize(message)
-      @topic = message['topic']
-      @body  = message['body']
+      @topic = message.fetch('topic')
+      @body  = message.fetch('body')
     end
 
     def push
