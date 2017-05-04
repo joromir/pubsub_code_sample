@@ -1,7 +1,7 @@
 module PubSubRedis
   # Used for message persistence. Keeps published messages for upto 30 minutes
   # so newly connected users could join the communication.
-  class TopicFifo
+  class History
     attr_reader :topic, :body, :client
 
     def self.push(message)

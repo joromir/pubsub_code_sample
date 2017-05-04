@@ -31,7 +31,7 @@ module PubSubRedis
     def publish
       return if subscription?
 
-      TopicFifo.push(payload)
+      History.push(payload)
       message_topic = payload['topic']
 
       broker.topics[message_topic].each do |subscriber|
