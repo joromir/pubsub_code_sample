@@ -2,13 +2,12 @@ module PubSubRedis
   # :nodoc:
   class Broker
     attr_reader :path
-    attr_accessor :clients
+    attr_accessor :topics
 
     def initialize(path = LocationTuple.new)
       @path        = path
       @connections = {}
-      @topics      = {}
-      @clients     = []
+      @topics      = Hash.new([])
     end
 
     def run

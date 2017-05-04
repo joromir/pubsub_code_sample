@@ -18,22 +18,31 @@ module PubSubRedis
 
     private
 
+    def populate_subscribers
+      inbound_message['topics'].each do |topic|
+        broker.topics[topic] = broker.topics[topic] + [connection]
+      end
+    end
+
     def subscribe
-      broker.clients << connection
+      populate_subscribers
+      puts broker.topics.inspect
+
       # get messages from the last 30 minutes from Redis
       # filter messages on topic basis
       connection.puts %w[recent messages should be shown here].to_json
     end
 
     def publish
-      puts broker.clients.inspect
       TopicFifo.push(inbound_message)
       route_message
     end
 
     def route_message
-      broker.clients.each do |client|
-        client.puts inbound_message.to_json
+      broker.topics.each do |topic, connections|
+        connections.each do |client|
+          client.puts [topic, inbound_message].to_json
+        end
       end
     end
   end
