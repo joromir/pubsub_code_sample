@@ -1,4 +1,5 @@
 module PubSubRedis
+  # :nodoc:
   class LocationTuple
     attr_reader :host, :port
 
