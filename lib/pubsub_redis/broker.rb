@@ -12,6 +12,8 @@ module PubSubRedis
     end
 
     def run
+      puts 'Broker started! Press CTRL+C to stop..'
+
       server = TCPServer.new(path.host, path.port)
 
       loop do

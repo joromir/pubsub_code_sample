@@ -15,12 +15,13 @@ module PubSubRedis
         connection.puts %w[recent messages should be shown here].to_json
       else
         puts broker.clients.inspect
+        TopicFifo.push(inbound_message)
         route_message
       end
     end
 
     def inbound_message
-      JSON(connection.recv(1000))
+      @inbound_message ||= JSON(connection.recv(1000))
     end
 
     private
