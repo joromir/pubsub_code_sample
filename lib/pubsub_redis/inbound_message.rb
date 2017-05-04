@@ -23,6 +23,11 @@ module PubSubRedis
       @payload    = JSON.parse(connection.recv(1000))
     end
 
+    def process
+      subscribe
+      publish
+    end
+
     def publish
       return if subscription?
 

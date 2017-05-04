@@ -19,7 +19,7 @@ module PubSubRedis
 
       loop do
         Thread.start(server.accept) do |connection|
-          Router.new(self, connection).execute
+          InboundMessage.new(connection, self).process
         end
       end
     end
