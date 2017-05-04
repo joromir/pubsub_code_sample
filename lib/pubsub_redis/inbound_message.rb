@@ -35,7 +35,7 @@ module PubSubRedis
       message_topic = payload['topic']
 
       broker.topics[message_topic].each do |subscriber|
-        subscriber.puts(payload.to_json)
+        subscriber.puts("[#{message_topic}] #{payload['body']}".to_json)
       end
     end
 

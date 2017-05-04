@@ -20,7 +20,7 @@ module PubSubRedis
     def listen
       subscribe_to_topics
 
-      loop { puts JSON(client.gets.chomp) }
+      loop { puts JSON.parse(client.gets.chomp) }
     end
 
     def to_h
