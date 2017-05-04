@@ -26,12 +26,12 @@ module PubSubRedis
 
           puts inbound_message.inspect
 
-          # if inbound_message['topics']
+          if inbound_message['topics']
             # filter messages on topic basis
             connection.puts %w[recent messages should be shown here].to_json
-          # else
-          #   puts connection.gets
-          # end
+          else
+            puts 'publisher'
+          end
 
           listen_user_messages(connection)
         end
