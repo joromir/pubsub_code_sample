@@ -18,7 +18,12 @@ namespace :ps do
       subscriber.enroll 'girls'
     end
 
-    listener.listen
+    begin
+      listener.listen
+    rescue NoMethodError, Errno::ECONNREFUSED, Errno::EPIPE
+      sleep 2
+      retry
+    end
   end
 
   task :subscriber_two do
@@ -27,6 +32,7 @@ namespace :ps do
 
     listener = PubSubRedis::Subscriber.new
     listener.enroll 'money'
+
     listener.listen
   end
 
