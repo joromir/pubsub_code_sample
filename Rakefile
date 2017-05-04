@@ -18,12 +18,7 @@ namespace :ps do
       subscriber.enroll 'girls'
     end
 
-    begin
-      listener.listen
-    rescue NoMethodError, Errno::ECONNREFUSED, Errno::EPIPE
-      sleep 2
-      retry
-    end
+    listener.listen
   end
 
   task :subscriber_two do
