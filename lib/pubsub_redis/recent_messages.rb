@@ -20,7 +20,10 @@ module PubSubRedis
     private
 
     def beautify(topic)
-      checker.call(topic).map { |message| "[#{topic}] #{message}" }
+      checker.call(topic).map do |message|
+        message_body = JSON(message)['body']
+        "[#{topic}] #{message_body}"
+      end
     end
   end
 end
