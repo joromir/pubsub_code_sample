@@ -1,5 +1,5 @@
 module PubSubRedis
-  # :nodoc:
+  # A container for host, port pair
   class LocationTuple
     attr_reader :host, :port
 

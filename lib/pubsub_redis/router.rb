@@ -1,5 +1,6 @@
 module PubSubRedis
-  # :nodoc:
+  # Routes inbound messages - messages from publishers or
+  # the ones which by subscribers enroll a given topic.
   class Router
     attr_reader :connection, :broker
 

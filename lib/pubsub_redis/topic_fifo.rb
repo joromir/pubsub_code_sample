@@ -1,5 +1,6 @@
 module PubSubRedis
-  # :nodoc:
+  # Used for message persistence. Keeps published messages for upto 30 minutes
+  # so newly connected users could join the communication.
   class TopicFifo
     def self.push(message)
       new(message).push

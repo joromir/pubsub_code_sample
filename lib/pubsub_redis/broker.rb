@@ -1,5 +1,7 @@
 module PubSubRedis
-  # :nodoc:
+  # Central message broker which relies on Redis for
+  # message persistence. Make sure redis-server is
+  # started to ensure everything works as expected.
   class Broker
     attr_reader :path
     attr_accessor :topics
