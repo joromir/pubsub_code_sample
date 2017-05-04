@@ -9,9 +9,14 @@ module PubSubRedis
     end
 
     def execute(message)
-      client = TCPSocket.new(path.host, path.port)
       client.write(message.to_json)
       client.close
+    end
+
+    private
+
+    def client
+      @client ||= TCPSocket.new(path.host, path.port)
     end
   end
 end
