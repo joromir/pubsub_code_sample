@@ -23,10 +23,14 @@ module PubSubRedis
       loop { puts JSON(client.gets.chomp) }
     end
 
+    def to_h
+      { topics: topics }
+    end
+
     private
 
     def subscribe_to_topics
-      client.write({ topics: topics }.to_json)
+      client.write(to_h.to_json)
     end
 
     def client

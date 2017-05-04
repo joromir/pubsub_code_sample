@@ -32,4 +32,10 @@ RSpec.describe PubSubRedis::Subscriber do
       end
     end
   end
+
+  describe '#to_h' do
+    it 'returns an instance of Hash' do
+      expect(subject.to_h).to be_an_instance_of(Hash)
+    end
+  end
 end
