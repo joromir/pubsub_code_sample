@@ -21,7 +21,7 @@ module PubSubRedis
     end
 
     def messages
-      message['topics'].inject({}) do |acc, topic|
+      message['topics'].reduce({}) do |acc, topic|
         acc.merge(topic => Redis.new.lrange(topic, 0, -1))
       end
     end
