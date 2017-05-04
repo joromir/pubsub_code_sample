@@ -4,10 +4,11 @@ module PubSubRedis
   class RecentMessages
     include RedisClient
 
-    attr_reader :message
+    attr_reader :message, :checker
 
-    def initialize(message)
+    def initialize(message, checker = ->(key) { Redis.new.lrange(key, 0, -1) })
       @message = message
+      @checker = checker
     end
 
     def to_a
@@ -23,10 +24,8 @@ module PubSubRedis
     private
 
     def messages
-      return [] unless message.key?('topics')
-
       message['topics'].reduce({}) do |acc, topic|
-        acc.merge(topic => Redis.new.lrange(topic, 0, -1))
+        acc.merge(topic => checker.call(topic))
       end
     end
   end
