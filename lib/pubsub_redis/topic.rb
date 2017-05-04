@@ -28,9 +28,11 @@ module PubSubRedis
       populate_subscribers
       puts broker.topics.inspect
 
-      # get messages from the last 30 minutes from Redis
-      # filter messages on topic basis
-      connection.puts %w[recent messages should be shown here].to_json
+      recent_messages = inbound_message['topics'].inject({}) do |acc, elem|
+        acc.merge(elem => TopicFifo.new(topic: elem).to_a)
+      end
+
+      connection.puts recent_messages.to_json
     end
 
     def publish
