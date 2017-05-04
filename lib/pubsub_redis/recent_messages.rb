@@ -10,17 +10,21 @@ module PubSubRedis
       @message = message
     end
 
-    def to_h
+    def to_a
       messages.map do |key, values|
         values.map { |value| "[#{key}] #{value}" }
       end
     end
 
     def to_json
-      to_h.to_json
+      to_a.to_json
     end
 
+    private
+
     def messages
+      return [] unless message.key?('topics')
+
       message['topics'].reduce({}) do |acc, topic|
         acc.merge(topic => Redis.new.lrange(topic, 0, -1))
       end
