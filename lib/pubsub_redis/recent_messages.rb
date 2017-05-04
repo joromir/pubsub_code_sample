@@ -2,19 +2,15 @@ module PubSubRedis
   # Gets the latest message activity from Redis on the basis of a given
   # subscription message.
   class RecentMessages
-    include RedisClient
-
-    attr_reader :message, :checker
+    attr_reader :topics, :checker
 
     def initialize(message, checker = ->(key) { Redis.new.lrange(key, 0, -1) })
-      @message = message
+      @topics  = message['topics']
       @checker = checker
     end
 
     def to_a
-      messages.map do |key, values|
-        values.map { |value| "[#{key}] #{value}" }
-      end
+      topics.map { |topic| beautify(topic) }
     end
 
     def to_json
@@ -23,10 +19,8 @@ module PubSubRedis
 
     private
 
-    def messages
-      message['topics'].reduce({}) do |acc, topic|
-        acc.merge(topic => checker.call(topic))
-      end
+    def beautify(topic)
+      checker.call(topic).map { |message| "[#{topic}] #{message}" }
     end
   end
 end
