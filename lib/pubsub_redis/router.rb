@@ -37,15 +37,11 @@ module PubSubRedis
 
     def publish
       TopicFifo.push(inbound_message)
-      route_message
-    end
 
-    def route_message
-      broker.topics.each do |topic, connections|
-        connections.each do |client|
-          client.puts [topic, inbound_message].to_json
-        end
-      end
+      message_topic = inbound_message['topic']
+      subscribers   = broker.topics[message_topic]
+
+      subscribers.each { |subscriber| subscriber.puts inbound_message.to_json }
     end
   end
 end
