@@ -33,7 +33,9 @@ namespace :ps do
   task :publisher do
     puts 'sample Publisher'
 
-    PubSubRedis::Publisher.new.execute(topic: 'money', body: 'money, money, money')
-    PubSubRedis::Publisher.new.execute(topic: 'cars', body: 'I like cars!!')
+    publisher = PubSubRedis::Publisher.new
+
+    publisher.execute(topic: 'money', body: 'money, money, money')
+    publisher.execute(topic: 'cars', body: 'I like cars!!')
   end
 end
