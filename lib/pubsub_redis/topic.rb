@@ -28,7 +28,7 @@ module PubSubRedis
 
     def route_message
       broker.clients.each do |client|
-        client.puts ['todo: send message'].to_json
+        client.puts inbound_message.to_json
       end
     end
   end
