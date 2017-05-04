@@ -37,5 +37,11 @@ RSpec.describe PubSubRedis::Subscriber do
     it 'returns an instance of Hash' do
       expect(subject.to_h).to be_an_instance_of(Hash)
     end
+
+    context 'when no topics are selected' do
+      it 'holds the expected data' do
+        expect(subject.to_h).to eq(topics: [])
+      end
+    end
   end
 end
