@@ -1,4 +1,6 @@
 gem 'json'
 gem 'redis'
+gem 'reek'
 gem 'rspec'
+gem 'rubocop'
 gem 'simplecov'
