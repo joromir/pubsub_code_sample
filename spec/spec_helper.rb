@@ -1,3 +1,10 @@
+require 'simplecov'
+
+SimpleCov.start do
+  add_group 'PubSubRedis', './lib/pubsub_redis'
+  add_filter './spec/*'
+end
+
 require './lib/pubsub_redis'
 
 RSpec.configure do |config|
