@@ -53,8 +53,12 @@ module PubSubRedis
     private
 
     def fetch_recent_messages
-      payload['topics'].inject({}) do |acc, elem|
-        acc.merge(elem => TopicFifo.new(topic: elem).to_a)
+      messages = payload['topics'].inject({}) do |acc, topic|
+        acc.merge(topic => Redis.new.lrange(topic, 0, -1))
+      end
+
+      messages.map do |key, values|
+        values.map { |value| "[#{key}] #{value}" }
       end
     end
 

@@ -14,10 +14,6 @@ module PubSubRedis
       client.lpush(topic, body)
     end
 
-    def to_a
-      client.lrange(topic, 0, -1)
-    end
-
     private
 
     attr_reader :topic, :body
