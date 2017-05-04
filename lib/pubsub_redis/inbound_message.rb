@@ -43,7 +43,8 @@ module PubSubRedis
       return unless subscription?
 
       join_topics
-      connection.puts(fetch_recent_messages.to_json)
+      recent_messages = RecentMessages.new(payload)
+      connection.puts(recent_messages.to_json)
     end
 
     def subscription?
@@ -51,16 +52,6 @@ module PubSubRedis
     end
 
     private
-
-    def fetch_recent_messages
-      messages = payload['topics'].inject({}) do |acc, topic|
-        acc.merge(topic => Redis.new.lrange(topic, 0, -1))
-      end
-
-      messages.map do |key, values|
-        values.map { |value| "[#{key}] #{value}" }
-      end
-    end
 
     def join_topics
       payload['topics'].each do |topic|
