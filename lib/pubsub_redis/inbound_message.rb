@@ -37,8 +37,7 @@ module PubSubRedis
     def subscribe
       return unless subscription?
 
-      populate_subscribers
-      puts broker.topics.inspect
+      join_topics
       connection.puts(fetch_recent_messages.to_json)
     end
 
@@ -54,9 +53,9 @@ module PubSubRedis
       end
     end
 
-    def populate_subscribers
+    def join_topics
       payload['topics'].each do |topic|
-        broker.topics[topic] = broker.topics[topic] + [connection]
+        broker.add_topic(topic: topic, connection: connection)
       end
     end
   end

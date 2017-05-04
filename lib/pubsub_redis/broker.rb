@@ -21,5 +21,11 @@ module PubSubRedis
         end
       end
     end
+
+    def add_topic(topic:, connection:)
+      topics.merge!(topic => [connection]) do |_key, old_value, new_value|
+        old_value + new_value
+      end
+    end
   end
 end
