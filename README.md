@@ -16,7 +16,11 @@ You may want to install `Redis` and run `redis-server` with the default local se
 
 We need `Redis` for message persistence so each subscriber receives the recent messages from the last 30 minutes on established connection with the broker.
 
-- Propel central broker by: `PubSubRedis::Broker.new.run`
+- Two ways to propel the central broker: 
+  - `PubSubRedis::Broker.new.run`
+  - `bundle exec rake ps:broker`
+  
+The aforementioned rake task uses the default development configuration - `localhost:20000`.
 
 By default `PubSubRedis::Broker` has a dependency injection of `PubSubRedis::LocationTuple` which evaluates to the tuple `(localhost, 20_000)` if nothing else is mentioned.
 
@@ -66,6 +70,16 @@ listener.listen
 
 Now this subscriber is listening from the central broker for new messages. It also gets the recent messages from the last 30 minutes on an established connection.
 
+#### Sample subscribers
+
+Sample could be executed by the following rake tasks:
+
+- `bundle exec rake ps:subscriber_one`
+Subscribed for topics: `cars`, `money`, `girls`
+
+- `bundle exec rake ps:subscriber_two`
+Subscribed for topics: `money`
+
 ### Publisher
 
 Invoke `PubSubRedis::Publisher#execute` to send messages to the central broker.
@@ -75,3 +89,9 @@ publisher = PubSubRedis::Publisher.new
 
 publisher.execute(topic: 'money', body: 'lorem ipsum dollor')
 ```
+
+#### Sample publisher
+
+Sample could be executed by the following rake task:
+
+- `bundle exec rake ps:publisher`
