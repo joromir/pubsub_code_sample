@@ -18,11 +18,19 @@ module PubSubRedis
     end
 
     def listen
-      client = TCPSocket.new(path.host, path.port)
+      subscribe_to_topics
 
+      loop { puts JSON(client.gets.chomp) }
+    end
+
+    private
+
+    def subscribe_to_topics
       client.write({ topics: topics }.to_json)
+    end
 
-      puts client.recv(100)
+    def client
+      @client ||= TCPSocket.new(path.host, path.port)
     end
   end
 end

@@ -1,44 +1,51 @@
 module PubSubRedis
   # :nodoc:
   class Broker
+    attr_reader :path, :client
+
     def initialize(path = LocationTuple.new)
       @path   = path
       @client = TCPServer.new(path.host, path.port)
+      @connections = {}
+      @topics = {}
+      @clients = []
+
+      @connections[:server] = @server
+      @connections[:rooms] = @rooms
+      @connections[:clients] = @clients
     end
 
     # TODO: refactor
     def run
-      puts 'Broker started! Press ctrl+c to stop.'
-
       loop do
-        Thread.start(client.accept) do |request|
-          puts "[#{Time.now}] New message - #{request.inspect}"
+        Thread.start(@client.accept) do |connection|
+          puts 'New connection'
+          @connections[:clients] << connection
 
-          message = JSON(request.recv(1000))
-          puts message.inspect
+          inbound_message = JSON(connection.recv(1000))
 
-          if message.has_key?('topics')
-            recent_messages = TopicFifo.new(message).to_a
+          puts inbound_message.inspect
 
-            if recent_messages.any?
-              recent_messages.each { |message| request.write("#{message}\n") }
-            end
+          # if inbound_message['topics']
+            # filter messages on topic basis
+            connection.puts %w[recent messages should be shown here].to_json
+          # else
+          #   puts connection.gets
+          # end
 
-          else
-            persist(message)
-            puts "[#{Time.now}] Connection closed"
-            request.close
-          end
+          listen_user_messages(connection)
         end
       end
     end
 
-    private
+    def listen_user_messages(client)
+      loop do
+        message = client.gets.chomp
 
-    attr_reader :path, :client
-
-    def persist(message)
-      TopicFifo.push(JSON.parse(message))
+        @connections[:clients].each do |other_name, other_client|
+          other_client.puts message.to_s
+        end
+      end
     end
   end
 end
