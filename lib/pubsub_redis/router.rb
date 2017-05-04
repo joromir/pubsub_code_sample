@@ -1,6 +1,6 @@
 module PubSubRedis
   # :nodoc:
-  class Topic
+  class Router
     attr_reader :connection, :broker
 
     def initialize(broker, connection)
