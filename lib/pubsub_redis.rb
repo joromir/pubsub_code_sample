@@ -2,6 +2,7 @@ require 'socket'
 require 'json'
 require 'redis'
 
+require './lib/pubsub_redis/redis_client'
 require './lib/pubsub_redis/history'
 require './lib/pubsub_redis/location_tuple'
 require './lib/pubsub_redis/recent_messages'

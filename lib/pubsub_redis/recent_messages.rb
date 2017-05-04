@@ -2,10 +2,11 @@ module PubSubRedis
   # Gets the latest message activity from Redis on the basis of a given
   # subscription message.
   class RecentMessages
-    attr_reader :message, :client
+    include RedisClient
+
+    attr_reader :message
 
     def initialize(message)
-      @client  = Redis.new
       @message = message
     end
 
