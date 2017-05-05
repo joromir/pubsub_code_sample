@@ -6,14 +6,14 @@ module PubSubRedis
 
     attr_reader :topic, :body, :timestamp
 
-    def self.push(message)
-      new(message).push
+    def self.push(message, timestamp)
+      new(message, timestamp).push
     end
 
-    def initialize(message)
+    def initialize(message, timestamp)
       @topic, @body = message.values_at('topic', 'body')
 
-      @timestamp = Time.now.to_i
+      @timestamp = timestamp
     end
 
     def push

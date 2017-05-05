@@ -31,11 +31,12 @@ module PubSubRedis
     def publish
       return if subscription?
 
-      History.push(payload)
-      message_topic = payload['topic']
+      timestamp = Time.now.to_i
 
-      broker.topics[message_topic].each do |subscriber|
-        subscriber.puts("[#{message_topic}] #{payload['body']}".to_json)
+      History.push(payload, timestamp)
+
+      broker.topics[payload['topic']].each do |subscriber|
+        subscriber.puts(BeautifyMessage.new(timestamp, payload).to_s.to_json)
       end
     end
 
@@ -46,8 +47,7 @@ module PubSubRedis
         broker.add_topic(topic: topic, connection: connection)
       end
 
-      recent_messages = RecentMessages.new(payload)
-      connection.puts(recent_messages.to_json)
+      connection.puts(RecentMessages.new(payload).to_json)
     end
 
     def subscription?
