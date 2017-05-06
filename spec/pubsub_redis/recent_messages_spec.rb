@@ -8,8 +8,8 @@ RSpec.describe PubSubRedis::RecentMessages do
       let(:checker) do
         lambda do |_|
           [
-            { 'body' => 'message1', 'timestamp' => 1494009494 },
-            { 'body' => 'message2', 'timestamp' => 1494009494 }
+            { 'body' => 'message1', 'timestamp' => 1_494_009_494 },
+            { 'body' => 'message2', 'timestamp' => 1_494_009_494 }
           ]
         end
       end
@@ -40,8 +40,8 @@ RSpec.describe PubSubRedis::RecentMessages do
       let(:checker) do
         lambda do |_|
           [
-            { 'body' => 'message1', 'timestamp' => 1494009494 },
-            { 'body' => 'message2', 'timestamp' => 1494009494 }
+            { 'body' => 'message1', 'timestamp' => 1_494_009_494 },
+            { 'body' => 'message2', 'timestamp' => 1_494_009_494 }
           ]
         end
       end
@@ -53,7 +53,7 @@ RSpec.describe PubSubRedis::RecentMessages do
       end
 
       xit 'results the expected array' do
-        result = "[[\"[hello] message1\",\"[hello] message2\"]]"
+        result = '[["[hello] message1","[hello] message2"]]'
 
         expect(subject.to_json).to eq result
       end
