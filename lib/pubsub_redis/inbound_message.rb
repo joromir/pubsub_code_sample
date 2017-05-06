@@ -15,7 +15,7 @@ module PubSubRedis
   #   body: 'Big red cars are the ones that I like'
   # }
   class InboundMessage
-    attr_reader :connection, :payload, :broker, :timestamp
+    attr_reader :connection, :broker, :payload, :timestamp
 
     def initialize(connection, broker)
       @connection = connection
