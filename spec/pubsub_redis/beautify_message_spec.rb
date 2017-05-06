@@ -1,16 +1,18 @@
 require 'spec_helper'
 
 RSpec.describe PubSubRedis::BeautifyMessage do
-  let(:message) do
-    {
-      'topic' => 'cars',
-      'body' => 'lorem ipsum'
-    }
-  end
-
-  subject { described_class.new(1_494_045_961, message) }
+  subject { described_class.new(timestamp, message) }
 
   describe '#to_s' do
+    let(:timestamp) { 1_494_045_961 }
+
+    let(:message) do
+      {
+        'topic' => 'cars',
+        'body' => 'lorem ipsum'
+      }
+    end
+
     it 'returns an instance of String' do
       expect(subject.to_s).to be_an_instance_of(String)
     end
