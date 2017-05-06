@@ -16,7 +16,7 @@ module PubSubRedis
     end
 
     def run
-      @history << client.lpop(topic) while redis_messages.any?
+      @history << client.lpop(topic) while redis_messages?
 
       history.each do |element|
         next unless expired?(timestamp(element))
@@ -26,8 +26,8 @@ module PubSubRedis
 
     private
 
-    def redis_messages
-      client.lrange(topic, 0, -1)
+    def redis_messages?
+      client.lrange(topic, 0, -1).any?
     end
   end
 end
