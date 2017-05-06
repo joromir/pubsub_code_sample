@@ -1,9 +1,12 @@
 require 'socket'
 require 'json'
 require 'redis'
+require 'byebug'
 
 require './lib/pubsub_redis/redis_client'
+require './lib/pubsub_redis/minutes_ago'
 require './lib/pubsub_redis/beautify_message'
+require './lib/pubsub_redis/message_cleaner'
 require './lib/pubsub_redis/history'
 require './lib/pubsub_redis/location_tuple'
 require './lib/pubsub_redis/recent_messages'

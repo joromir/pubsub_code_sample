@@ -25,6 +25,8 @@ module PubSubRedis
     end
 
     def add_topic(topic:, connection:)
+      MessageCleaner.run(topic)
+
       topics.merge!(topic => [connection]) { |_, old, late| old.push(*late) }
     end
   end
