@@ -24,6 +24,12 @@ module PubSubRedis
       end
     end
 
+    def add_topics(topics:, connection:)
+      topics.each do |topic|
+        add_topic(topic: topic, connection: connection)
+      end
+    end
+
     def add_topic(topic:, connection:)
       MessageCleaner.run(topic)
 

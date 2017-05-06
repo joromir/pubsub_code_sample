@@ -39,10 +39,7 @@ module PubSubRedis
     def subscribe
       return unless subscription?
 
-      payload['topics'].each do |topic|
-        broker.add_topic(topic: topic, connection: connection)
-      end
-
+      broker.add_topics(topics: payload['topics'], connection: connection)
       connection.puts(RecentMessages.new(payload).to_json)
     end
 
