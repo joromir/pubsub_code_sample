@@ -15,32 +15,13 @@ module PubSubRedis
     end
 
     def run
-      initial = next_element
-      element = next_element
+      history = []
+      history << client.lpop(topic) while client.lrange(topic, 0, -1).any?
 
-      while !element.nil? && element != initial
-        puts initial.inspect
-        puts element.inspect
-
-        insert_element(topic, element) unless expired?(timestamp(element))
-        element = next_element
+      history.each do |element|
+        next unless expired?(JSON.parse(element)['timestamp'])
+        client.lpush(topic, element)
       end
-
-      insert_element(topic, initial)
-    end
-
-    private
-
-    def timestamp(element)
-      JSON.parse(element)['timestamp']
-    end
-
-    def insert_element(topic, element)
-      client.lpush(topic, element)
-    end
-
-    def next_element
-      client.rpop(topic)
     end
   end
 end
