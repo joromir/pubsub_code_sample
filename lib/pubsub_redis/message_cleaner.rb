@@ -29,9 +29,5 @@ module PubSubRedis
     def redis_messages
       client.lrange(topic, 0, -1)
     end
-
-    def timestamp(element)
-      JSON.parse(element)['timestamp']
-    end
   end
 end
