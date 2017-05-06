@@ -5,7 +5,6 @@ module PubSubRedis
 
     def initialize(timestamp, inbound_message)
       @topic, @body = inbound_message.values_at('topic', 'body')
-
       @time = Time.at(timestamp)
     end
 

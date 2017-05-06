@@ -22,7 +22,7 @@ module PubSubRedis
 
     def beautify(topic)
       checker.call(topic).map do |message|
-        raw = JSON(message)
+        raw = JSON.parse(message)
 
         inbound_message = { 'topic' => topic, 'body' => raw['body'] }
         BeautifyMessage.new(raw['timestamp'], inbound_message).to_s
