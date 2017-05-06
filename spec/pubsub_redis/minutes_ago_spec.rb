@@ -34,4 +34,16 @@ RSpec.describe PubSubRedis::MinutesAgo do
       expect(subject.minutes_ago(30).strftime(sample_format)).to eq expected
     end
   end
+
+  describe '#timestamp' do
+    context 'when input is JSON string' do
+      let(:json_message) do
+        { timestamp: 1_494_080_762 }.to_json
+      end
+
+      it 'returns the expected timestamp' do
+        expect(subject.timestamp(json_message)).to eq 1_494_080_762
+      end
+    end
+  end
 end

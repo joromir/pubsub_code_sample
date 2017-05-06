@@ -1,4 +1,5 @@
 module PubSubRedis
+  # :nodoc:
   module MinutesAgo
     def minutes_ago(minutes)
       Time.now - (minutes * 60)
