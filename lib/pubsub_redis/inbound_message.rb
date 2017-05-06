@@ -15,12 +15,13 @@ module PubSubRedis
   #   body: 'Big red cars are the ones that I like'
   # }
   class InboundMessage
-    attr_reader :connection, :payload, :broker
+    attr_reader :connection, :payload, :broker, :timestamp
 
     def initialize(connection, broker)
       @connection = connection
       @broker     = broker
       @payload    = JSON.parse(connection.recv(1000))
+      @timestamp  = Time.now.to_i
     end
 
     def process
@@ -31,13 +32,8 @@ module PubSubRedis
     def publish
       return if subscription?
 
-      timestamp = Time.now.to_i
-
       History.push(payload, timestamp)
-
-      broker.topics[payload['topic']].each do |subscriber|
-        subscriber.puts(BeautifyMessage.new(timestamp, payload).to_s.to_json)
-      end
+      distribute_message
     end
 
     def subscribe
@@ -52,6 +48,14 @@ module PubSubRedis
 
     def subscription?
       payload.key?('topics')
+    end
+
+    private
+
+    def distribute_message
+      broker.topics[payload['topic']].each do |subscriber|
+        subscriber.puts(BeautifyMessage.new(timestamp, payload).to_json)
+      end
     end
   end
 end

@@ -12,5 +12,9 @@ module PubSubRedis
     def to_s
       "[#{topic}] #{time} : #{body}"
     end
+
+    def to_json
+      to_s.to_json
+    end
   end
 end
