@@ -4,7 +4,7 @@ module PubSubRedis
     include RedisClient
     include MinutesAgo
 
-    attr_reader :topic
+    attr_reader :topic, :history
 
     def self.run(topic)
       new(topic).run
@@ -12,16 +12,26 @@ module PubSubRedis
 
     def initialize(topic)
       @topic = topic
+      @history = []
     end
 
     def run
-      history = []
-      history << client.lpop(topic) while client.lrange(topic, 0, -1).any?
+      @history << client.lpop(topic) while redis_messages.any?
 
       history.each do |element|
-        next unless expired?(JSON.parse(element)['timestamp'])
+        next unless expired?(timestamp(element))
         client.lpush(topic, element)
       end
+    end
+
+    private
+
+    def redis_messages
+      client.lrange(topic, 0, -1)
+    end
+
+    def timestamp(element)
+      JSON.parse(element)['timestamp']
     end
   end
 end
