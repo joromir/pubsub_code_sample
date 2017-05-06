@@ -9,7 +9,7 @@ module PubSubRedis
     def initialize(path = LocationTuple.new)
       @path        = path
       @connections = {}
-      @topics      = Hash.new([])
+      @topics      = {}
     end
 
     def run
