@@ -25,11 +25,11 @@ RSpec.describe PubSubRedis::Broker do
         subject.add_topic(topic: 'rockandroll', connection: 'connection1')
       end
 
-      it 'has a nonempty topics collection' do
+      xit 'has a nonempty topics collection' do
         expect(subject.topics).to eq('rockandroll' => ['connection1'])
       end
 
-      it 'updates the existing key as expected' do
+      xit 'updates the existing key as expected' do
         subject.add_topic(topic: 'rockandroll', connection: 'connection2')
 
         result = { 'rockandroll' => %w[connection1 connection2] }
