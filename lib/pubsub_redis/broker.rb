@@ -3,6 +3,8 @@ module PubSubRedis
   # message persistence. Make sure redis-server is
   # started to ensure everything works as expected.
   class Broker
+    include RedisClient
+
     attr_reader :path
     attr_accessor :topics
 
@@ -16,6 +18,8 @@ module PubSubRedis
       puts 'Broker started! Press CTRL+C to stop..'
 
       server = TCPServer.new(path.host, path.port)
+
+      client.ping
 
       loop do
         Thread.start(server.accept) do |connection|
