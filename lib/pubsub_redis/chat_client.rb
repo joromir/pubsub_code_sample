@@ -5,14 +5,14 @@ module PubSubRedis
     attr_reader :publisher
 
     def initialize
-      @publisher = Publisher.new
+      @publisher = PubSubRedis::Publisher.new
     end
 
     def run
       listen_topic
 
       loop do
-        publisher.execute('topic' => 'cars', 'body' => gets.chomp)
+        publisher.execute('topic' => 'chat', 'body' => STDIN.gets.chomp)
       end
     end
 
@@ -21,8 +21,8 @@ module PubSubRedis
     def listen_topic
       Thread.new do
         PubSubRedis::Subscriber.new do |user|
-          user.enroll('cars')
-          user.listen { |message| puts "[MESSAGE] : #{message}" }
+          user.enroll('chat')
+          user.listen
         end
       end
     end

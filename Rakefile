@@ -1,6 +1,12 @@
 require './lib/pubsub_redis'
 
 namespace :ps do
+  task :chat do
+    puts 'starting chat client'
+
+    PubSubRedis::ChatClient.new.run
+  end
+
   task :broker do
     puts 'Broker started on default settings'
     puts 'localhost:20000'
