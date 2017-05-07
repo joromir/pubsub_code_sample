@@ -70,6 +70,14 @@ listener.listen
 
 Now this subscriber is listening from the central broker for new messages. It also gets the recent messages from the last 30 minutes on an established connection.
 
+```ruby
+listener.listen do |message|
+  # make something with message
+  something = 1 + 1
+  puts "[#{something}] MODIFIED MESSAGE #{message}"
+end
+```
+
 #### Sample subscribers
 
 Sample could be executed by the following rake tasks:
