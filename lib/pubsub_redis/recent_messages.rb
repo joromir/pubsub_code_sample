@@ -18,6 +18,12 @@ module PubSubRedis
       to_a.to_json
     end
 
+    def send_activity(connection)
+      to_a.each do |batch|
+        batch.each { |msg| connection.puts(msg.to_json) }
+      end
+    end
+
     private
 
     def beautify(topic)
