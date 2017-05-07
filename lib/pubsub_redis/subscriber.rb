@@ -25,7 +25,7 @@ module PubSubRedis
       loop do
         message = client.gets
 
-        raise BrokerUnavailable if message.nil?
+        raise BrokerUnavailable unless message
 
         puts JSON.parse(message.chomp)
       end
