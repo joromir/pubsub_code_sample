@@ -27,7 +27,9 @@ module PubSubRedis
 
         raise BrokerUnavailable unless message
 
-        puts JSON.parse(message.chomp)
+        output = JSON.parse(message.chomp)
+
+        block_given? ? yield(output) : puts(output)
       end
     end
 

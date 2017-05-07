@@ -40,7 +40,8 @@ module PubSubRedis
       return unless subscription?
 
       broker.add_topics(topics: payload['topics'], connection: connection)
-      connection.puts(RecentMessages.new(payload).to_json)
+
+      RecentMessages.new(payload).send_activity(connection)
     end
 
     def subscription?

@@ -18,7 +18,11 @@ namespace :ps do
       subscriber.enroll 'girls'
     end
 
-    listener.listen
+    listener.listen do |message|
+      something = 1 + 1
+
+      puts "[#{something}] MODIFIED MESSAGE #{message}"
+    end
   end
 
   task :subscriber_two do
