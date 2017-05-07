@@ -7,6 +7,7 @@ SimpleCov.start do
 end
 
 require './lib/pubsub_redis'
+require './spec/support/fake_connection'
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
@@ -17,18 +18,4 @@ RSpec.configure do |config|
     mocks.verify_partial_doubles = true
   end
   config.shared_context_metadata_behavior = :apply_to_host_groups
-end
-
-class FakeConnection
-  attr_reader :params
-
-  def initialize(params)
-    @params = params
-  end
-
-  def puts(*args); end
-
-  def recv(*)
-    params.to_json
-  end
 end
