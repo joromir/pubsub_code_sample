@@ -1,4 +1,6 @@
 module PubSubRedis
+  BrokerUnavailable = Class.new(StandardError)
+
   # Once an object of this class is instantiated, it listens for
   # inbound messages from preselected topics and prints them.
   class Subscriber
@@ -20,7 +22,13 @@ module PubSubRedis
     def listen
       subscribe_to_topics
 
-      loop { puts JSON.parse(client.gets.chomp) }
+      loop do
+        message = client.gets
+
+        raise BrokerUnavailable if message.nil?
+
+        puts JSON.parse(message.chomp)
+      end
     end
 
     def to_h
