@@ -12,7 +12,7 @@ module PubSubRedis
       listen_topic
 
       loop do
-        publisher.execute('topic' => 'cars', 'body' => STDIN.gets.chomp)
+        publisher.execute('topic' => 'chat', 'body' => STDIN.gets.chomp)
       end
     end
 
@@ -21,7 +21,7 @@ module PubSubRedis
     def listen_topic
       Thread.new do
         PubSubRedis::Subscriber.new do |user|
-          user.enroll('cars')
+          user.enroll('chat')
           user.listen
         end
       end
