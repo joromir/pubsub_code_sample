@@ -52,7 +52,11 @@ module PubSubRedis
 
     def distribute_message
       broker.topics[payload['topic']].each do |subscriber|
-        subscriber.puts(BeautifyMessage.new(timestamp, payload).to_json)
+        begin
+          subscriber.puts(BeautifyMessage.new(timestamp, payload).to_json)
+        rescue Errno::EPIPE
+          next
+        end
       end
     end
   end

@@ -15,3 +15,5 @@ require_relative '../lib/pubsub_redis/broker'
 require_relative '../lib/pubsub_redis/publisher'
 require_relative '../lib/pubsub_redis/subscriber'
 require_relative '../lib/pubsub_redis/chat_client'
+
+Thread.abort_on_exception = true
