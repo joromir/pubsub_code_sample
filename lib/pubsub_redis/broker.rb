@@ -10,13 +10,11 @@ module PubSubRedis
 
     def initialize(path = LocationTuple.new)
       @path        = path
-      @connections = {}
       @topics      = {}
     end
 
     def run
       puts 'Broker started! Press CTRL+C to stop..'
-
       server = TCPServer.new(path.host, path.port)
 
       client.ping
