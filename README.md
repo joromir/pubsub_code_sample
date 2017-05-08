@@ -103,3 +103,13 @@ publisher.execute(topic: 'money', body: 'lorem ipsum dollor')
 Sample could be executed by the following rake task:
 
 - `bundle exec rake ps:publisher`
+
+## Sample CLI Chat
+
+A sample chat is implemented by the means of this gem.
+
+### start the broker: 
+1. `redis-server`
+2. `bundle exec rake ps:broker`
+### start chat client (two times)
+`bundle exec rake ps:chat`
