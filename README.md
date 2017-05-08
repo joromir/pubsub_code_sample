@@ -55,7 +55,7 @@ Duplicative topics get rejected.
 ```ruby
 listener.enroll('grils')
 
-listener.topics # => ['cars', 'moneys', 'girls', 'food']
+listener.topics # => ['cars', 'money', 'girls', 'food']
 ```
 
 By default `PubSubRedis::Subscriber` accepts a `PubSubRedis::LocationTuple` which evaluates to `(localhost, 20_000)` if nothing else is mentioned.
