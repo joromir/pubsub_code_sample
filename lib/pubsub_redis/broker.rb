@@ -27,9 +27,7 @@ module PubSubRedis
     end
 
     def add_topics(topics:, connection:)
-      topics.each do |topic|
-        add_topic(topic: topic, connection: connection)
-      end
+      topics.each { |topic| add_topic(topic: topic, connection: connection) }
     end
 
     def add_topic(topic:, connection:)
