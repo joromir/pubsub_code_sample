@@ -4,11 +4,12 @@ module PubSubRedis
   # Once an object of this class is instantiated, it listens for
   # inbound messages from preselected topics and prints them.
   class Subscriber
-    attr_reader :path, :topics
+    attr_reader :path, :topics, :client
 
-    def initialize(path = LocationTuple.new)
+    def initialize(path = LocationTuple.new, socket = TCPSocket)
       @path   = path
       @topics = []
+      @client = socket.new(path.host, path.port)
 
       yield self if block_given?
     end
@@ -19,32 +20,29 @@ module PubSubRedis
       topics << new_topic
     end
 
-    def listen
+    def listen(&block)
       subscribe_to_topics
 
-      loop do
-        message = client.gets
-
-        raise BrokerUnavailable unless message
-
-        output = JSON.parse(message.chomp)
-
-        block_given? ? yield(output) : puts(output)
-      end
+      loop { process_incoming_data(&block) }
     end
 
     def to_h
       { topics: topics }
     end
 
+    def process_incoming_data
+      message = client.gets
+
+      raise BrokerUnavailable unless message
+
+      output = JSON.parse(message.chomp)
+      block_given? ? yield(output) : puts(output)
+    end
+
     private
 
     def subscribe_to_topics
       client.write(to_h.to_json)
-    end
-
-    def client
-      @client ||= TCPSocket.new(path.host, path.port)
     end
   end
 end
