@@ -20,7 +20,7 @@ module PubSubRedis
       client.ping
 
       loop do
-        Thread.start(server.accept) do |connection|
+        Thread.new(server.accept) do |connection|
           InboundMessage.new(connection, self).process
         end
       end
