@@ -39,14 +39,14 @@ listener = PubSubRedis::Subscriber.new do |subscriber|
   subscriber.enroll 'girls'
 end
 
-listener.topics # => ['cars', 'moneys', 'girls']
+listener.topics # => ['cars', 'money', 'girls']
 ```
 
 Single topic can also be subscribed by:
 ```ruby
 listener.enroll('food')
 
-listener.topics # => ['cars', 'moneys', 'girls', 'food']
+listener.topics # => ['cars', 'money', 'girls', 'food']
 ```
 
 
